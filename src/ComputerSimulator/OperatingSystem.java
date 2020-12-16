@@ -1,4 +1,6 @@
-package Clazzes;
+package ComputerSimulator;
+
+
 
 public class OperatingSystem {
 
@@ -6,9 +8,9 @@ public class OperatingSystem {
     private String osVersion;
     private String osArch;
     final private boolean OC;
-    private int SpaceRequirements;
-    private int RamRequirement;
-    private Software[] osSoftware = new Software[0];
+    final private int SpaceRequirements;
+    final private int RamRequirement;
+    private Software[] osSoftware = new Software[3];
 
     //Constructor
     public OperatingSystem(String name, String version, String arch, boolean OC, int SpaceRequirements, int RamRequiremnet){
@@ -41,6 +43,13 @@ public class OperatingSystem {
         return this.RamRequirement;
     }
 
+    public void getSoftware(){
+        for (Software software : osSoftware) {
+            if (software != null)
+                System.out.println(software.getsName());
+        }
+    }
+
     //Setters
     public void setOsName(String name){
         this.osName = name;
@@ -56,13 +65,25 @@ public class OperatingSystem {
 
     //Methods
 
-    public boolean installSoft(Software soft){
-        for (int i = 0; i < osSoftware.length; i++) {
-            if (osSoftware[i]==null){
-                osSoftware[i]=soft;
-                return true;
+    public boolean installSoft(Software soft, Computer pc){
+        if ((pc.getAvaliblespace() >= soft.getsSpaceRequirements()) && (pc.getRamMemory() > soft.getsRamRequirements() + soft.getsRamRequirements())) {
+            for (int i = 0; i < osSoftware.length; i++) {
+                if (osSoftware[i]==null){
+                    osSoftware[i]=soft;
+                    pc.setAvaliblespace(pc.getAvaliblespace()-1);
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    public void uninstallSoft(Software s, Computer pc){
+        for (int i = 0; i < osSoftware.length; i++) {
+            if (s == osSoftware[i]){
+                osSoftware[i] = null;
+                pc.setAvaliblespace(pc.getAvaliblespace() + s.getsSpaceRequirements()  );
+            }
+        }
     }
 }

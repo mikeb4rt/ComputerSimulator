@@ -1,4 +1,4 @@
-package Clazzes;
+package ComputerSimulator;
 
 public class Software {
 
