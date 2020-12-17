@@ -30,7 +30,7 @@ public class Guess {
         return this.tryes;
     }
     public int getMoney(){
-        return this.money;
+        return money;
     }
 
     public int getUserNumber(){
@@ -47,37 +47,40 @@ public class Guess {
     }
 
     public boolean check(){
+        if (money > 0) {
         int[] introducednumbers = new int [5];
         int i = 0;
         sumMoney(1);
-        do {
-            this.setuserNumber();
-            this.reduceTryes();
-            introducednumbers[i] = userNumber;
-            System.out.println(this.getGenNumber());
-            if (this.guess()) {
-                System.out.println("Numero acertado");
-                System.out.println("Numero a acertar " + this.getGenNumber());
-                System.out.println("Numero a introducido " + this.getUserNumber());
-                this.sumMoney(-5);
-                salir = true;
+            do {
+                    this.setuserNumber();
+                    this.reduceTryes();
+                    introducednumbers[i] = userNumber;
+                    System.out.println(this.getGenNumber());
+                    if (this.guess()) {
+                        System.out.println("Numero acertado");
+                        System.out.println("Numero a acertar " + this.getGenNumber());
+                        System.out.println("Numero a introducido " + this.getUserNumber());
+                        this.sumMoney(-5);
+                        System.out.println(this.getMoney());
+                        salir = true;
+                        for (int introducednumber : introducednumbers) {
+                            System.out.print(introducednumber + ", ");
+                        }
+                        return true;
+                    } else {
+                        if (this.getGenNumber() < this.getUserNumber()) {
+                            System.out.println("El numero a acertar es menor a " + this.getUserNumber() + " intentelo de nuevo");
+                        } else
+                            System.out.println("El numero a acertar es mayor a " + this.getUserNumber() + " intentelo de nuevo");
+                    }
+                    i++;
+            }while ((!this.guess()) && (this.getTryes() > 0)) ;
+                System.out.print("Numeros introducidos: ");
                 for (int introducednumber : introducednumbers) {
                     System.out.print(introducednumber + ", ");
                 }
-                return true;
-            } else {
-                if (this.getGenNumber() < this.getUserNumber()) {
-                    System.out.println("El numero a acertar es menor a " + this.getUserNumber() + " intentelo de nuevo");
-                } else
-                    System.out.println("El numero a acertar es mayor a " + this.getUserNumber() + " intentelo de nuevo");
-            }
-            i++;
-        } while ((!this.guess()) && (this.getTryes() >  0));
-        System.out.print("Numeros introducidos: ");
-        for (int introducednumber : introducednumbers) {
-            System.out.print(introducednumber + ", ");
-        }
-        return false;
+        }else System.out.println("Maquina sin dinero");
+            return false;
     }
 
     public boolean guess(){
@@ -97,6 +100,7 @@ public class Guess {
                     System.out.println("tiene un intento mas");
                 }else  {
                     System.out.println("Hasta la proxima");
+                    System.out.println(this.getMoney());
                     salir = true;
                 }
             }
